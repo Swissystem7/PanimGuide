@@ -656,5 +656,248 @@ th { background: var(--bg-alt); }
   .term details { border: 1px solid #777; }
   .term details { display: block; }
   .term details > * { display: block !important; }
-  .card, .cite, .diagram { break-inside: avoid; box-shadow: none; }
+  .card, .cite, .diagram, .claim-card, .composite, .explorer-face-card { break-inside: avoid; box-shadow: none; }
+  .explorer-controls, .explorer-reset, .icon-btn { display: none !important; }
+  .print-state { display: block !important; }
+  .explorer-layout { display: block; }
+  .explorer-face-panel { position: static; }
+}
+
+/* —— חוקר תווי הפנים —— */
+.explorer-note {
+  margin: 0 0 1.4rem;
+}
+
+.explorer-layout {
+  display: grid;
+  grid-template-columns: minmax(17rem, 24rem) minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: start;
+}
+
+.explorer-face-panel {
+  position: sticky;
+  top: calc(var(--header-h) + 0.8rem);
+}
+
+.explorer-face-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.85rem 0.85rem 1rem;
+  box-shadow: var(--shadow);
+}
+
+.explorer-face-card figcaption {
+  margin-top: 0.55rem;
+  color: var(--ink-muted);
+  font-size: 0.88rem;
+}
+
+.face-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: var(--bg-alt);
+  border-radius: 12px;
+}
+
+.face-svg .zone-label {
+  font-size: 8px;
+  fill: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+.explorer-controls {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.control-block {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.9rem 0.9rem;
+}
+
+.control-block legend {
+  font-weight: 750;
+  padding-inline: 0.35rem;
+}
+
+.control-block .period-hint {
+  margin: 0.15rem 0 0.65rem;
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+}
+
+.slider-row,
+.choice-row {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.65rem;
+}
+
+.slider-row label,
+.choice-row .choice-label {
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.slider-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 2rem;
+  direction: rtl;
+}
+
+.choice-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.choice-pills label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  background: var(--bg-alt);
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.choice-pills input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.choice-pills label:has(input:checked) {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg-elev));
+}
+
+.explorer-reset {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: inherit;
+  border-radius: 10px;
+  padding: 0.45rem 0.8rem;
+}
+
+.readings-col {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.claim-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.9rem 1rem;
+}
+
+.claim-card.is-active {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  box-shadow: var(--shadow);
+}
+
+.claim-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.02rem;
+}
+
+.claim-kicker {
+  font-size: 0.78rem;
+  font-weight: 750;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+.claim-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.claim-quote {
+  margin: 0.4rem 0;
+}
+
+.badge-unfound {
+  display: inline-block;
+  font-weight: 750;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  padding: 0.08rem 0.45rem;
+  border-radius: 999px;
+  background: var(--bound);
+  color: var(--bg);
+  margin-inline-end: 0.35rem;
+}
+
+.badge-conflict {
+  display: inline-block;
+  font-weight: 750;
+  font-size: 0.75rem;
+  padding: 0.08rem 0.45rem;
+  border-radius: 999px;
+  background: var(--accent-2);
+  color: var(--bg);
+  margin-inline-end: 0.35rem;
+}
+
+.composite {
+  background: var(--ok-bg);
+  border: 1px solid color-mix(in srgb, var(--ok) 30%, var(--line));
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+
+.composite h2 {
+  margin-top: 0;
+}
+
+.composite-label {
+  display: inline-block;
+  font-weight: 750;
+  font-size: 0.8rem;
+  margin-bottom: 0.4rem;
+  color: var(--ok);
+}
+
+.science-sticky {
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+}
+
+.print-state {
+  display: none;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.unsourced-block {
+  border-style: dashed;
+}
+
+@media (max-width: 860px) {
+  .explorer-layout { grid-template-columns: 1fr; }
+  .explorer-face-panel { position: static; }
 }

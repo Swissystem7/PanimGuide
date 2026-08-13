@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f0e4">
+  <meta name="description" content="חוקר תווי הפנים: תרשים SVG מופשט ומקורות מצוטטים. אינו מנתח אדם חי, אינו מצלם, ואינו טוען דבר על אישיות.">
+  <title>חוקר תווי הפנים — פנים־מדריך</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">דלגו לתוכן הראשי</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="../index.html">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="12" fill="currentColor" opacity="0.12"/>
+          <ellipse cx="32" cy="32" rx="18" ry="22" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="32" cy="18" r="2" fill="currentColor"/>
+          <circle cx="32" cy="26" r="2" fill="currentColor"/>
+          <circle cx="24" cy="32" r="2" fill="currentColor"/>
+          <circle cx="40" cy="32" r="2" fill="currentColor"/>
+          <circle cx="32" cy="40" r="2" fill="currentColor"/>
+          <circle cx="22" cy="46" r="2" fill="currentColor"/>
+          <circle cx="42" cy="46" r="2" fill="currentColor"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">פנים־מדריך</span>
+          <span class="brand-tag">מורשת, לא אבחון</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+      <nav class="site-nav" id="site-nav" aria-label="ניווט ראשי">
+        <ul>
+          <li><a href="../index.html">ראשי</a></li>
+          <li><a href="index.html" aria-current="page">חוקר</a></li>
+          <li><a href="../overview.html">סקירה</a></li>
+          <li><a href="../glossary.html">מושגים</a></li>
+          <li><a href="../history.html">הקשר היסטורי</a></li>
+          <li><a href="../sources.html">מקורות</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-pressed="false">מצב כהה</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="boundary" role="note">
+    <div class="wrap boundary-inner">
+      <div>
+        <strong>גבולות שאינם ניתנים למשא ומתן</strong>
+        התרשים בדף זה הוא דיאגרמה גאומטרית — לא תצלום ולא דיוקן ריאליסטי. אין מצלמה, אין העלאת תמונה, אין זיהוי פנים ואין ניתוח של אדם חי. הפלט הוא «מה המסורת אומרת על הצורה הזו», לעולם לא טענה על אישיות, יכולת, בריאות או אופי של איש, ולעולם לא עצה להעסקה, לשידוך, לשפיטה או לאבחון. פיזיוגנומיה אין לה תוקף מדעי — ראו את
+        <a href="../history.html#consensus">הקונצנזוס המודרני נגד פיזיוגנומיה</a>.
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <div class="wrap" id="explorer-root">
+      <p class="kicker">כלי חקירה · תרשים, לא אדם</p>
+      <h1>חוקר תווי הפנים</h1>
+      <p class="lede">
+        הזיזו את המחוונים. התרשים משתנה, ולידו מופיעה טענת המקור על השדה הזה — מצוטטת או מתומצתת, עם ציון, תקופה וקישור.
+        אם אי אפשר לאמת — נכתב «לא נמצא מקור». ההרכב למטה הוא ליקוט של טענות המסורת, לא אבחון.
+      </p>
+
+      <section class="callout callout-bound explorer-note" aria-labelledby="how-explorer">
+        <h2 id="how-explorer">איך לקרוא את הכלי</h2>
+        <ul>
+          <li>הפנים הן תרשים שדות (שערא, מצחא, עיינין…) כפי שנמנו בזוהר — לא מפת אבחון.</li>
+          <li>הזוהר דן בשדות אחד־אחד. הצירוף ל«קריאה מסורתית» הוא מעשה הדף, ומסומן כך.</li>
+          <li>סתירות בין מקורות נשארות גלויות. אין ליישב אותן בלי מקור.</li>
+          <li>אין כאן יישום על אדם חי, ואין לשמור צילום או להשוות לאיש.</li>
+        </ul>
+      </section>
+
+      <div class="explorer-layout">
+        <div class="explorer-face-panel">
+          <figure class="explorer-face-card">
+            <svg id="schematic-face" class="face-svg" viewBox="0 0 260 360" role="img" aria-labelledby="face-title face-desc">
+              <title id="face-title">תרשים פנים מופשט, לא דיוקן</title>
+              <desc id="face-desc">אליפסה, קווים וקשתות המשתנים לפי המחוונים. אין כאן דמות אדם.</desc>
+              <text x="130" y="22" text-anchor="middle" class="zone-label">תרשים · לא דיוקן · לא תצלום</text>
+              <ellipse id="face-fill" cx="130" cy="178" rx="72" ry="104" fill="#efe2c4" opacity="0.85"/>
+              <ellipse id="face-oval" cx="130" cy="178" rx="72" ry="104" fill="none" stroke="currentColor" stroke-width="2"/>
+              <g id="hair-group"></g>
+              <path id="hairline-path" d="M70 110 Q130 92 190 110" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <g id="wrinkles-group"></g>
+              <path id="brow-left" d="" fill="none" stroke="currentColor"/>
+              <path id="brow-right" d="" fill="none" stroke="currentColor"/>
+              <circle id="eye-left" cx="106" cy="168" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle id="eye-right" cx="154" cy="168" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path id="nose-path" d="M130 180 L122 204 H138" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path id="lips-upper" d="" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path id="lips-lower" d="" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path id="chin-mark" d="" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <path id="ear-left" d="" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path id="ear-right" d="" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <g id="beard-group"></g>
+              <text x="130" y="48" text-anchor="middle" class="zone-label">1 שערא</text>
+              <text x="130" y="96" text-anchor="middle" class="zone-label">2 מצחא</text>
+              <text x="36" y="186" text-anchor="middle" class="zone-label">7 אודנין</text>
+              <text x="224" y="186" text-anchor="middle" class="zone-label">7 אודנין</text>
+              <text x="130" y="348" text-anchor="middle" class="zone-label">4 אנפין · 5 שפוון</text>
+            </svg>
+            <figcaption>
+              כל קו הוא שדה טקסטואלי. המספרים הם סדר המנייה בזוהר ב ע ע״ב, לא הוראת שימוש.
+            </figcaption>
+          </figure>
+          <p class="print-state" id="print-state"></p>
+        </div>
+
+        <div>
+          <form class="explorer-controls" id="controls" aria-label="שדות התרשים">
+            <fieldset class="control-block">
+              <legend>שערא</legend>
+              <p class="period-hint">זוהר ב, ע ע״ב–עא ע״ב · קבלה, נוסח יתרו</p>
+              <div class="slider-row">
+                <label for="hairTexture">מרקם השיער</label>
+                <input id="hairTexture" name="hairTexture" type="range" min="0" max="2" step="1" value="2" aria-valuetext="שעיע ותלוי למטה">
+                <div class="slider-meta"><span>קמיט ועולה</span><span id="val-hairTexture"></span><span>שעיע ותלוי</span></div>
+              </div>
+              <div class="choice-row">
+                <p class="choice-label" id="hairColor-label">גוון השיער כפי שנמנה</p>
+                <div class="choice-pills" role="radiogroup" aria-labelledby="hairColor-label">
+                  <label><input type="radio" name="hairColor" value="0"> אוכמא צהיב</label>
+                  <label><input type="radio" name="hairColor" value="1" checked> אוכמא דלא צהיב</label>
+                  <label><input type="radio" name="hairColor" value="2"> גוון אחר</label>
+                </div>
+              </div>
+              <div class="choice-row">
+                <p class="choice-label" id="hairline-label">קו השיער / מריטה</p>
+                <div class="choice-pills" role="radiogroup" aria-labelledby="hairline-label">
+                  <label><input type="radio" name="hairline" value="0" checked> מלא</label>
+                  <label><input type="radio" name="hairline" value="1"> מריט בין העיניים</label>
+                  <label><input type="radio" name="hairline" value="2"> מריט במקום אחר</label>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-block">
+              <legend>מצחא</legend>
+              <p class="period-hint">זוהר ב, עא ע״ב–עב ע״ב. הגובה והעיגול נקראים יחד.</p>
+              <div class="slider-row">
+                <label for="foreheadSize">גובה / גודל המצח</label>
+                <input id="foreheadSize" name="foreheadSize" type="range" min="0" max="2" step="1" value="1" aria-valuetext="לא דקיק ולא רברבא — לא נמצא מקור">
+                <div class="slider-meta"><span>דקיק</span><span id="val-foreheadSize"></span><span>רברבא</span></div>
+              </div>
+              <div class="slider-row">
+                <label for="foreheadRound">עיגול המצח</label>
+                <input id="foreheadRound" name="foreheadRound" type="range" min="0" max="2" step="1" value="1" aria-valuetext="בינוני — לא נמצא מקור">
+                <div class="slider-meta"><span>חד בלא עגולא</span><span id="val-foreheadRound"></span><span>בעגולא</span></div>
+              </div>
+              <div class="slider-row">
+                <label for="wrinkles">קמיטין</label>
+                <input id="wrinkles" name="wrinkles" type="range" min="0" max="2" step="1" value="0" aria-valuetext="אין תיאור קמטים שנבחר">
+                <div class="slider-meta"><span>אין</span><span id="val-wrinkles"></span><span>שלושה עליונים</span></div>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-block">
+              <legend>עיינין וגבינין</legend>
+              <p class="period-hint">זוהר ב, עב ע״ב–עג ע״ב. הזוהר דן בגוון, לא ב«עין שקדית».</p>
+              <div class="choice-row">
+                <p class="choice-label" id="eyes-label">גווני העין כפי שנמנו</p>
+                <div class="choice-pills" role="radiogroup" aria-labelledby="eyes-label">
+                  <label><input type="radio" name="eyes" value="0" checked> ארבעה גוונים</label>
+                  <label><input type="radio" name="eyes" value="1"> ירוק בחוור</label>
+                  <label><input type="radio" name="eyes" value="2"> צהיב ירוק</label>
+                  <label><input type="radio" name="eyes" value="3"> חוור וזעיר ירוק</label>
+                  <label><input type="radio" name="eyes" value="4"> ירוק־חוור־אוכם</label>
+                </div>
+              </div>
+              <div class="slider-row">
+                <label for="brows">גבות</label>
+                <input id="brows" name="brows" type="range" min="0" max="1" step="1" value="0" aria-valuetext="לא תואר במפורש">
+                <div class="slider-meta"><span>לא תואר</span><span id="val-brows"></span><span>רברבין וכסיין</span></div>
+              </div>
+              <div class="slider-row">
+                <label for="eyeDepth">שקיעת העין</label>
+                <input id="eyeDepth" name="eyeDepth" type="range" min="0" max="1" step="1" value="0" aria-valuetext="לא שקיעין">
+                <div class="slider-meta"><span>רגיל בתרשים</span><span id="val-eyeDepth"></span><span>שקיעין</span></div>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-block">
+              <legend>אנפין — מתאר וגוון רגעי</legend>
+              <p class="period-hint">4Q186 למתאר הגוף; הזוהר ל«אנפין נהירין» ולשינויי סומק/חוור/ירוק הרגעיים.</p>
+              <div class="slider-row">
+                <label for="proportion">מתאר כללי</label>
+                <input id="proportion" name="proportion" type="range" min="0" max="2" step="1" value="1" aria-valuetext="לא נקבע">
+                <div class="slider-meta"><span>רחב/עגול (שבור)</span><span id="val-proportion"></span><span>ארוך ורזה</span></div>
+              </div>
+              <div class="choice-row">
+                <p class="choice-label" id="complexion-label">גוון כפי שמתואר בטקסטים — לא סולם גזע</p>
+                <div class="choice-pills" role="radiogroup" aria-labelledby="complexion-label">
+                  <label><input type="radio" name="complexion" value="0" checked> נהירין</label>
+                  <label><input type="radio" name="complexion" value="1"> סומק רגעי</label>
+                  <label><input type="radio" name="complexion" value="2"> חוור רגעי</label>
+                  <label><input type="radio" name="complexion" value="3"> ירוק רגעי</label>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-block">
+              <legend>שפוון, דיקנא, אודנין</legend>
+              <p class="period-hint">זוהר ב, עה ע״ב</p>
+              <div class="slider-row">
+                <label for="lips">מלוא השפתיים</label>
+                <input id="lips" name="lips" type="range" min="0" max="3" step="1" value="1" aria-valuetext="בינוניות — לא נמצא מקור">
+                <div class="slider-meta"><span>דקות</span><span id="val-lips"></span><span>עתיקין</span></div>
+              </div>
+              <div class="slider-row">
+                <label for="beard">זקן</label>
+                <input id="beard" name="beard" type="range" min="0" max="1" step="1" value="0" aria-valuetext="לא מלא">
+                <div class="slider-meta"><span>לא מלא</span><span id="val-beard"></span><span>מלא</span></div>
+              </div>
+              <div class="slider-row">
+                <label for="ears">אוזניים</label>
+                <input id="ears" name="ears" type="range" min="0" max="2" step="1" value="1" aria-valuetext="בינוניות — לא נמצא מקור">
+                <div class="slider-meta"><span>זעירין</span><span id="val-ears"></span><span>רברבין</span></div>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-block unsourced-block">
+              <legend>שדות שהמקורות שנבדקו אינם מונים</legend>
+              <p class="period-hint">מוצגים כדי שאפשר יהיה לראות את החור, לא כדי למלא אותו.</p>
+              <div class="slider-row">
+                <label for="nose">קו האף</label>
+                <input id="nose" name="nose" type="range" min="0" max="2" step="1" value="1" aria-valuetext="בינוני">
+                <div class="slider-meta"><span>קצר</span><span id="val-nose"></span><span>ארוך</span></div>
+              </div>
+              <div class="slider-row">
+                <label for="chin">סנטר</label>
+                <input id="chin" name="chin" type="range" min="0" max="2" step="1" value="1" aria-valuetext="בינוני">
+                <div class="slider-meta"><span>נסוג</span><span id="val-chin"></span><span>בולט</span></div>
+              </div>
+            </fieldset>
+
+            <p>
+              <button type="button" class="explorer-reset" id="explorer-reset">החזרה למצב פתיחה</button>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <div class="readings-col" id="readings">
+        <h2>מה אומר המקור על השדה הזה</h2>
+        <div id="active-reading" role="status" aria-live="polite"></div>
+        <div class="composite" id="composite">
+          <h2>קריאה מסורתית</h2>
+          <div id="composite-body"></div>
+        </div>
+        <h2>כל השדות בבחירה הנוכחית</h2>
+        <div class="claim-list" id="all-readings"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>פנים־מדריך</strong> הוא מדריך חינוכי בעברית למורשת טקסטואלית של «חכמת הפנים» בקבלה ובספרות ישראל.
+        הוא אינו כלי אבחון ואינו מתיימר לקרוא פנים.
+        <p class="small">אין תלויות חיצוניות, אין CDN, ואין איסוף נתונים. תאריך בדיקת המקורות: 13 באוגוסט 2026.</p>
+      </div>
+      <div>
+        <a href="../sources.html">רשימת מקורות מלאה</a><br>
+        <a href="../history.html#harms">נזקים מתועדים</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../js/app.js" defer></script>
+  <script src="../js/explorer.js" defer></script>
+</body>
+</html>
