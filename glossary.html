@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f0e4">
+  <meta name="description" content="מילון מושגים מאויר לחכמת הפנים: תרשימי SVG מופשטים בלבד, בלי תצלומים ובלי פנים ריאליסטיים.">
+  <title>מילון מושגים מאויר — פנים־מדריך</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">דלגו לתוכן הראשי</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="12" fill="currentColor" opacity="0.12"/>
+          <ellipse cx="32" cy="32" rx="18" ry="22" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="32" cy="18" r="2" fill="currentColor"/>
+          <circle cx="32" cy="26" r="2" fill="currentColor"/>
+          <circle cx="24" cy="32" r="2" fill="currentColor"/>
+          <circle cx="40" cy="32" r="2" fill="currentColor"/>
+          <circle cx="32" cy="40" r="2" fill="currentColor"/>
+          <circle cx="22" cy="46" r="2" fill="currentColor"/>
+          <circle cx="42" cy="46" r="2" fill="currentColor"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">פנים־מדריך</span>
+          <span class="brand-tag">מורשת, לא אבחון</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+      <nav class="site-nav" id="site-nav" aria-label="ניווט ראשי">
+        <ul>
+          <li><a href="index.html">ראשי</a></li>
+          <li><a href="overview.html">סקירה</a></li>
+          <li><a href="glossary.html" aria-current="page">מושגים</a></li>
+          <li><a href="history.html">הקשר היסטורי</a></li>
+          <li><a href="sources.html">מקורות</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-pressed="false">מצב כהה</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="boundary" role="note">
+    <div class="wrap boundary-inner">
+      <div>
+        <strong>גבולות שאינם ניתנים למשא ומתן</strong>
+        אתר זה אינו מנתח, מצלם, מעלה או מנקד פנים של אדם חי. אין מצלמה, אין העלאת תמונה, אין זיהוי פנים ואין הסקה על אישיות או יכולת של איש. המסורת המוצגת כאן אינה שיטה מדעית לשפיטת בני אדם — ראו את
+        <a href="history.html#consensus">הקונצנזוס המודרני נגד פיזיוגנומיה</a>.
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <div class="wrap">
+      <p class="kicker">מילון מאויר</p>
+      <h1>אוצר המילים המסורתי — בתרשימים מופשטים בלבד</h1>
+      <p class="lede">
+        כל איור בדף זה הוא תרשים גאומטרי שצויר עבור האתר. אין תצלומים, אין דיוקנאות ריאליסטיים, ואין «מפת פנים» ליישום.
+        האיורים מסבירים מילים בטקסטים, לא בני אדם.
+      </p>
+
+      <div class="callout callout-bound">
+        <p>
+          הזוהר מונה שבעה מושאי הסתכלות וגם מתאר סימנים פרטניים.
+          האתר מצטט את רשימת המושאים ואת הלשון העקרונית, ואינו מעתיק את לוחות הסימנים כהוראות שימוש.
+          הסיבה: העתקה כזאת עלולה להיתפס כמדריך אבחון, וזה בדיוק מה שהאתר מסרב להיות.
+        </p>
+      </div>
+
+      <div class="glossary-tools">
+        <div class="field">
+          <label for="glossary-search">חיפוש מושג</label>
+          <input id="glossary-search" type="search" placeholder="למשל: דיוקנא, שרטוטין, תחזה">
+        </div>
+        <div class="field">
+          <label for="glossary-filter">סינון</label>
+          <select id="glossary-filter">
+            <option value="all">כל המושגים</option>
+            <option value="names">שמות היחידה</option>
+            <option value="fields">שבעת המושאים</option>
+            <option value="ideas">מושגי יסוד</option>
+            <option value="limits">גבולות ולשון הלכה</option>
+          </select>
+        </div>
+        <p id="glossary-status" class="small" role="status" aria-live="polite"></p>
+      </div>
+
+      <article class="term" data-term="חכמת הפנים חכמת הפרצוף" data-cat="names">
+        <details open>
+          <summary>חכמת הפנים / חכמת הפרצוף</summary>
+          <p>
+            שם מאוחר למסורות על קשר בין נפש לגוף, ובמיוחד לפרצוף.
+            בזוהר עצמו הלשון השלטת ביחידת יתרו היא «דיוקנין», «תולדות אדם» ו«רזא דאנפין», לא בהכרח הכותרת המודרנית.
+          </p>
+          <figure class="diagram">
+            <svg viewBox="0 0 360 160" role="img" aria-labelledby="t-name">
+              <title id="t-name">שני מעגלים: טקסט מול אבחון. החץ אל האבחון חסום.</title>
+              <rect x="20" y="40" width="130" height="80" rx="12" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="85" y="85" text-anchor="middle" font-size="16" fill="currentColor">טקסט</text>
+              <path d="M160 80 H210" stroke="currentColor" stroke-width="2"/>
+              <polygon points="210,74 224,80 210,86" fill="currentColor"/>
+              <rect x="230" y="40" width="110" height="80" rx="12" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+              <text x="285" y="78" text-anchor="middle" font-size="14" fill="currentColor">אבחון</text>
+              <path d="M250 50 L320 110 M320 50 L250 110" stroke="currentColor" stroke-width="3"/>
+            </svg>
+            <figcaption>האתר נשאר במעגל הטקסט. מעגל האבחון חסום במכוון.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="דיוקנא דיוקנין" data-cat="ideas">
+        <details>
+          <summary>דיוקנא / דיוקנין</summary>
+          <p>
+            בארמית של הזוהר: צורה או דמות. ביחידת יתרו, «דיוקנין דאנפין» אינם רק סימנים חיצוניים:
+            «לאו אינון ברשימין דלבר, אלא בגו רשימא דרזין פנימאן».
+          </p>
+          <p class="source-line">זוהר, פרשת יתרו, פסקה «דאנפין», ויקיטקסט.</p>
+          <figure class="diagram">
+            <svg viewBox="0 0 360 180" role="img" aria-labelledby="t-diokna">
+              <title id="t-diokna">שכבה חיצונית ושכבה פנימית. החיצים יוצאים מבפנים החוצה.</title>
+              <ellipse cx="180" cy="90" rx="120" ry="70" fill="none" stroke="currentColor" stroke-width="2"/>
+              <ellipse cx="180" cy="90" rx="60" ry="36" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="180" y="94" text-anchor="middle" font-size="14" fill="currentColor">פנימי</text>
+              <text x="180" y="36" text-anchor="middle" font-size="13" fill="currentColor">חיצוני</text>
+              <path d="M180 54 V44" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <figcaption>תרשים שכבות: לפי הזוהר, הצורה החיצונית אינה כל הסיפור.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="פרצוף" data-cat="ideas">
+        <details>
+          <summary>פרצוף</summary>
+          <p>
+            בעברית מאוחרת ובהלכה: הפנים כביטוי עיקרי של האדם.
+            בקבלה הלוריאנית יש גם שימוש אחר לגמרי ל«פרצופים» כמבנים של ספירות (אריך אנפין, זעיר אנפין וכו').
+            שני השימושים אינם זהים, ואין לערבב ביניהם בלי מקור.
+          </p>
+          <div class="unfound">
+            לא נפתח כאן דף ראשוני מ«עץ חיים» המגדיר «פרצוף» בהקשר הלוריאני. לכן אין ציטוט משם.
+          </div>
+        </details>
+      </article>
+
+      <article class="term" data-term="רזא דדיוקנין רזא דרזין" data-cat="names">
+        <details>
+          <summary>רזא דדיוקנין / «רזא דרזין»</summary>
+          <p>
+            בוויקיטקסט נפתחת היחידה בכותרת «זה ספר תולדות אדם — רזא דדיוקנין».
+            הכינוי «רזא דרזין» רווח במסורת מאוחרת ובכותרות פירושים; את גוף «אור החמה» שפותח ב«רזי דרזין» לא טענו במלואו.
+          </p>
+          <p class="source-line">זוהר ב, ע ע״א–עח ע״א; כותרת ויקיטקסט. ראו <a href="overview.html#zohar">הסקירה</a>.</p>
+        </details>
+      </article>
+
+      <article class="term" data-term="הכרת פנים" data-cat="names">
+        <details>
+          <summary>הכרת פנים</summary>
+          <p>
+            לשון הגאונים אצל הרמב״ן: «מסרו חכמים אחד לחברו הכרת פנים וסלרי שרטוטין».
+            הרמב״ן מוסיף שעם האבדן «נשאר זכרם בשבוש ביד מועטים».
+          </p>
+          <p class="source-line">רמב״ן, תורת ה׳ תמימה, ויקיטקסט.</p>
+        </details>
+      </article>
+
+      <article class="term" data-term="שרטוטין שרטוטי ידין" data-cat="fields">
+        <details>
+          <summary>שרטוטין / שרטוטי ידין</summary>
+          <p>
+            קווים. אצל הגאונים (דרך הרמב״ן) וגם כאחד משבעת המושאים בזוהר: «ובשרטוטי ידין».
+            בדף עח ע״א: «שונאי בצע שית בידין בשרטוטיהון».
+          </p>
+          <figure class="diagram">
+            <svg viewBox="0 0 280 220" role="img" aria-labelledby="t-hand">
+              <title id="t-hand">מתאר כף יד גאומטרי עם שלושה קווים ישרים. לא כף יד מציאותית.</title>
+              <path d="M90 200 C70 150 70 90 110 70 C118 40 150 38 156 72 C168 30 198 34 198 78 C210 48 236 56 228 92 C246 80 258 100 240 120 L230 200 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M112 150 H210" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M118 168 H200" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M130 132 L200 118" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <figcaption>סכמה בלבד: מתאר וקווים. לא מפת קריאה ואין פירוש לקו.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="שבעה מושאים שערא מצחא עיינין" data-cat="fields">
+        <details open>
+          <summary>שבעה מושאי הסתכלות</summary>
+          <p>
+            הזוהר מונה שבעה: שער, מצח, עיניים, פנים, שפתיים, שרטוטי ידיים, אוזניים.
+            בדף עח ע״א נמנים שישה צדדים על הפסוק «ואתה תחזה» (בלי האוזניים). האתר מציג את שתי הרשימות כפי שהן, בלי ליישב אותן מעבר למה שהטקסט אומר.
+          </p>
+          <figure class="diagram">
+            <svg viewBox="0 0 360 420" role="img" aria-labelledby="t-seven">
+              <title id="t-seven">אליפסה מחולקת לשדות ממוספרים. תרשים מיפוי, לא פנים.</title>
+              <ellipse cx="180" cy="200" rx="120" ry="160" fill="none" stroke="currentColor" stroke-width="2"/>
+              <line x1="80" y1="90" x2="280" y2="90" stroke="currentColor" stroke-width="1"/>
+              <line x1="70" y1="150" x2="290" y2="150" stroke="currentColor" stroke-width="1"/>
+              <line x1="64" y1="210" x2="296" y2="210" stroke="currentColor" stroke-width="1"/>
+              <line x1="70" y1="270" x2="290" y2="270" stroke="currentColor" stroke-width="1"/>
+              <text x="180" y="78" text-anchor="middle" font-size="14" fill="currentColor">1 שערא</text>
+              <text x="180" y="128" text-anchor="middle" font-size="14" fill="currentColor">2 מצחא</text>
+              <text x="180" y="188" text-anchor="middle" font-size="14" fill="currentColor">3 עיינין</text>
+              <text x="180" y="248" text-anchor="middle" font-size="14" fill="currentColor">4 אנפין · 5 שפוון</text>
+              <text x="70" y="200" text-anchor="middle" font-size="13" fill="currentColor" transform="rotate(-90 70 200)">7 אודנין</text>
+              <text x="290" y="200" text-anchor="middle" font-size="13" fill="currentColor" transform="rotate(90 290 200)">7 אודנין</text>
+              <rect x="95" y="370" width="170" height="36" rx="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <text x="180" y="393" text-anchor="middle" font-size="14" fill="currentColor">6 שרטוטי ידין</text>
+            </svg>
+            <figcaption>מפת שדות טקסטואליים, לא מפת אבחון. המספרים הם סדר המנייה בזוהר ב ע״ב.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="שערא שיער" data-cat="fields">
+        <details>
+          <summary>שערא</summary>
+          <p>הראשון בשבעת המושאים. הזוהר דן בסוגי שער בלשון סמלית ומקשר אותיות. כאן מוצג רק עצם המושא, לא לוח הסימנים.</p>
+          <figure class="diagram">
+            <svg viewBox="0 0 260 160" role="img" aria-labelledby="t-hair">
+              <title id="t-hair">מעגל וממנו קווים קורנים. סמל לשדה השיער.</title>
+              <circle cx="130" cy="100" r="28" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M130 72 L130 18 M112 76 L90 28 M148 76 L170 28 M100 88 L52 60 M160 88 L208 60" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <figcaption>קווים קורנים ממעגל. אין תסרוקת ואין טיפוס אדם.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="מצחא מצח קמטים" data-cat="fields">
+        <details>
+          <summary>מצחא</summary>
+          <p>השני בשבעה. הזוהר מתאר צורות מצח וקמטים («קמיטין») ומקשר אותם לאות נ׳. אין כאן פירוש לקמט.</p>
+          <figure class="diagram">
+            <svg viewBox="0 0 260 140" role="img" aria-labelledby="t-brow">
+              <title id="t-brow">מלבן עם שלושה קווים אופקיים. סמל למצח כשדה.</title>
+              <rect x="50" y="30" width="160" height="80" rx="8" fill="none" stroke="currentColor" stroke-width="2"/>
+              <line x1="70" y1="52" x2="190" y2="52" stroke="currentColor"/>
+              <line x1="70" y1="70" x2="190" y2="70" stroke="currentColor"/>
+              <line x1="70" y1="88" x2="190" y2="88" stroke="currentColor"/>
+            </svg>
+            <figcaption>מלבן וקווים: שדה, לא מצח של אדם.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="עיינין עיניים גוונים" data-cat="fields">
+        <details>
+          <summary>עיינין</summary>
+          <p>
+            הזוהר מתאר ארבעה גוונים בשכבות העין וקושר אותם לאות ס׳.
+            התרשים שלהלן הוא טבעות קונצנטריות עם תוויות צבע — לא עין מצוירת.
+          </p>
+          <figure class="diagram">
+            <svg viewBox="0 0 280 180" role="img" aria-labelledby="t-eye">
+              <title id="t-eye">ארבע טבעות קונצנטריות עם שמות גוונים.</title>
+              <circle cx="140" cy="90" r="70" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="140" cy="90" r="50" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="140" cy="90" r="30" fill="none" stroke="currentColor" stroke-width="2"/>
+              <circle cx="140" cy="90" r="10" fill="currentColor"/>
+              <text x="140" y="28" text-anchor="middle" font-size="11" fill="currentColor">חוורו</text>
+              <text x="230" y="80" font-size="11" fill="currentColor">אוכמא</text>
+              <text x="20" y="94" font-size="11" fill="currentColor">ירוקא</text>
+              <text x="140" y="172" text-anchor="middle" font-size="11" fill="currentColor">נקודה</text>
+            </svg>
+            <figcaption>שכבות כפי שנמנו בזוהר («גווני דעיינין אינון ארבע»). אין אבחון לפי צבע.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="אנפין ארבע דיוקנין אדם אריה שור נשר" data-cat="fields">
+        <details>
+          <summary>אנפין וארבע הצורות</summary>
+          <p>
+            בפסקת «דאנפין» מתאר הזוהר צורות רגעיות: אדם, אריה, שור, נשר — לשון המרכבה של יחזקאל א.
+            אלה אינם גזעים ואינם טיפוסי פנים לזיהוי ברחוב. התרשים משתמש בארבעה סמלים גאומטריים בלבד.
+          </p>
+          <figure class="diagram">
+            <svg viewBox="0 0 360 140" role="img" aria-labelledby="t-four">
+              <title id="t-four">ארבעה סמלים גאומטריים לצורות המרכבה.</title>
+              <circle cx="50" cy="60" r="28" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="50" y="116" text-anchor="middle" font-size="13" fill="currentColor">אדם</text>
+              <polygon points="140,32 168,88 112,88" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="140" y="116" text-anchor="middle" font-size="13" fill="currentColor">אריה</text>
+              <rect x="202" y="34" width="56" height="52" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="230" y="116" text-anchor="middle" font-size="13" fill="currentColor">שור</text>
+              <path d="M300 88 L330 40 L360 88 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M270 88 L300 40 L330 88 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="315" y="116" text-anchor="middle" font-size="13" fill="currentColor">נשר</text>
+            </svg>
+            <figcaption>סמלים בלבד. לא חיות ולא פנים. מקור הלשון: זוהר יתרו, «דאנפין».</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="שפוון שפתיים" data-cat="fields">
+        <details>
+          <summary>שפוון</summary>
+          <p>הזוהר מקשר את השפתיים לאות פ׳ «דכליל ברזא דאת ס׳». כאן רק סימון השדה.</p>
+          <figure class="diagram">
+            <svg viewBox="0 0 220 100" role="img" aria-labelledby="t-lips">
+              <title id="t-lips">שני קווים קשתות מקבילים. לא שפתיים מצוירות.</title>
+              <path d="M40 40 Q110 18 180 40" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M40 58 Q110 80 180 58" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <figcaption>שתי קשתות. אין פה ואין הבעה.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="אודנין אוזניים" data-cat="fields">
+        <details>
+          <summary>אודנין</summary>
+          <p>השביעי ברשימת ע ע״ב. לא נכלל במניין השישה של «ואתה תחזה» בעח ע״א.</p>
+          <figure class="diagram">
+            <svg viewBox="0 0 160 140" role="img" aria-labelledby="t-ear">
+              <title id="t-ear">ספירלה גאומטרית כסמל לאוזן כשדה.</title>
+              <path d="M80 20 C120 20 130 70 90 90 C60 104 58 70 82 66 C96 64 96 82 80 86" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <figcaption>ספירלה, לא אוזן אנטומית.</figcaption>
+          </figure>
+        </details>
+      </article>
+
+      <article class="term" data-term="רוחא אותיות" data-cat="ideas">
+        <details>
+          <summary>רוחא ואותיות</summary>
+          <p>
+            לפי פסקת «דאנפין», ברוח האדם חקוקות אותיות, ולפי שעה עולים רישומיהן אל הפנים.
+            «ציורא דאתוון אתגניזו לגו, וציורא דאימא בליט לבר».
+            זהו אוצר מילים קבלי על נשמה ואות, לא אלגוריתם לזיהוי.
+          </p>
+          <figure class="diagram">
+            <svg viewBox="0 0 320 160" role="img" aria-labelledby="t-letters">
+              <title id="t-letters">עיגול פנימי ואותיות עולות כנקודות אל קו חיצוני.</title>
+              <circle cx="80" cy="90" r="34" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="80" y="96" text-anchor="middle" font-size="14" fill="currentColor">רוח</text>
+              <circle cx="150" cy="50" r="4" fill="currentColor"/>
+              <circle cx="176" cy="78" r="4" fill="currentColor"/>
+              <circle cx="188" cy="112" r="4" fill="currentColor"/>
+              <circle cx="210" cy="64" r="4" fill="currentColor"/>
+              <rect x="230" y="30" width="70" height="100" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <text x="265" y="86" text-anchor="middle" font-size="13" fill="currentColor">חוץ</text>
+            </svg>
+            <figcaption>אותיות כנקודות עולות. תרשים מושגי בלבד.</figcaption>
+          </figure>
+          <p class="source-line">זוהר, פרשת יתרו, «דאנפין», ויקיטקסט.</p>
+        </details>
+      </article>
+
+      <article class="term" data-term="ואתה תחזה" data-cat="ideas">
+        <details>
+          <summary>ואתה תחזה</summary>
+          <p>
+            דרשת הזוהר על שמות יח, כא: לא נאמר «תבחר» אלא «תחזה», «לפום חיזו דעיינין».
+            מיד אחר כך: משה לא נזקק לכך, כי רוח הקודש באה אליו.
+          </p>
+          <p class="source-line">זוהר ב, עח ע״א.</p>
+        </details>
+      </article>
+
+      <article class="term" data-term="תמים תהיה לא תנחשו פיזיוגנומיה" data-cat="limits">
+        <details>
+          <summary>תמים תהיה / לא תנחשו / פיזיוגנומיה</summary>
+          <p>
+            הרמב״ם אוסר ניחוש ועוננות, וקורא להם «דברי שקר וכזב», ומסיים ב«תמים תהיה עם ה׳ אלהיך».
+            הוא אינו נוקט בדף שנבדק את השם «חכמת הפרצוף».
+          </p>
+          <p>
+            <strong>פיזיוגנומיה</strong> היא המונח הכללי להסקה ממראה על אופי. במדע המודרני היא פסאודו־מדע.
+            ראו <a href="history.html#consensus">הקונצנזוס</a>.
+          </p>
+        </details>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-grid">
+      <div>
+        <strong>פנים־מדריך</strong> הוא מדריך חינוכי בעברית למורשת טקסטואלית של «חכמת הפנים» בקבלה ובספרות ישראל.
+        הוא אינו כלי אבחון ואינו מתיימר לקרוא פנים.
+        <p class="small">אין תלויות חיצוניות, אין CDN, ואין איסוף נתונים. תאריך בדיקת המקורות: 13 באוגוסט 2026.</p>
+      </div>
+      <div>
+        <a href="sources.html">רשימת מקורות מלאה</a><br>
+        <a href="history.html#harms">נזקים מתועדים</a>
+      </div>
+    </div>
+  </footer>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
