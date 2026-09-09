@@ -2,12 +2,16 @@
 
 | Field | Value |
 | --- | --- |
-| **Live public Pages URL** | **UNKNOWN** until confirmed by owner |
+| **Live public Pages URL** | **https://swissystem7.github.io/PanimGuide/** |
+| **Status** | Live — verified HTTP 200 |
+| **Verified on** | 2026-09-09 (UTC) |
 | **Intended publish root** | repo `master` (per README) |
-| **Canonical URL (placeholder)** | `https://EXAMPLE.github.io/PanimGuide/` — replace `EXAMPLE` / path once Pages is verified |
+| **Canonical URL** | `https://swissystem7.github.io/PanimGuide/` |
 
 ## Notes
 
-- Do not put an unverified `swissystem7.github.io` (or other) link in README as “live” until someone opens the Pages URL in a browser and confirms HTTP 200 for `index.html`.
-- After confirmation: set the real canonical URL here and add a matching canonical / live-link line to README.
-- Status remains **UNKNOWN** until that confirmation.
+- Verified on 2026-09-09: a GET of `https://swissystem7.github.io/PanimGuide/` returned **HTTP 200** with no redirect, and `https://swissystem7.github.io/PanimGuide/index.html` also returned **HTTP 200**.
+- The GitHub Pages API (`GET /repos/Swissystem7/PanimGuide/pages`) reports status **built**, html_url `https://swissystem7.github.io/PanimGuide/`, source branch `master` at path `/`, and HTTPS enforced.
+- The served page carries the Hebrew title of this site, confirming this URL serves PanimGuide and not some other project.
+- The URL is therefore confirmed and may be linked from README as the live site.
+- Re-verify if the Pages source branch, the repository name or the owner ever changes.
