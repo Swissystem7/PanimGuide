@@ -94,6 +94,16 @@
     });
   }
 
+  // Node-only hook for the test suite (test/glossary.test.js).
+  // In the browser `module` is undefined, this block never runs,
+  // and the behaviour of the page is unchanged.
+  if (typeof module === "object" && module !== null && module.exports) {
+    module.exports = {
+      normalize: normalize,
+      initGlossary: initGlossary
+    };
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initTheme();
     initNav();

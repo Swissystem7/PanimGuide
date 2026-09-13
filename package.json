@@ -3,6 +3,6 @@
   "private": true,
   "description": "Hebrew RTL textual-heritage education site — no live-face analysis",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test test/"
   }
 }

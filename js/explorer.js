@@ -827,5 +827,19 @@
     update("hairTexture");
   }
 
+  // Node-only hook for the test suite (test/explorer.test.js).
+  // In the browser `module` is undefined, this block never runs,
+  // and the behaviour of the page is unchanged.
+  if (typeof module === "object" && module !== null && module.exports) {
+    module.exports = {
+      DEFAULTS: DEFAULTS,
+      LABELS: LABELS,
+      foreheadCombo: foreheadCombo,
+      readingsFor: readingsFor,
+      buildComposite: buildComposite,
+      escapeHtml: escapeHtml
+    };
+  }
+
   document.addEventListener("DOMContentLoaded", init);
 })();
