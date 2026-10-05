@@ -657,7 +657,7 @@ th { background: var(--bg-alt); }
   .term details { display: block; }
   .term details > * { display: block !important; }
   .card, .cite, .diagram, .claim-card, .composite, .explorer-face-card { break-inside: avoid; box-shadow: none; }
-  .explorer-controls, .explorer-reset, .icon-btn { display: none !important; }
+  .explorer-controls, .explorer-reset, .explorer-actions, .icon-btn { display: none !important; }
   .print-state { display: block !important; }
   .explorer-layout { display: block; }
   .explorer-face-panel { position: static; }
@@ -799,6 +799,17 @@ input[type="range"] {
   color: inherit;
   border-radius: 10px;
   padding: 0.45rem 0.8rem;
+}
+
+.explorer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+}
+
+.explorer-permalink {
+  font-size: 0.92rem;
 }
 
 .readings-col {
