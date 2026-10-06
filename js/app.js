@@ -103,6 +103,16 @@
     return out;
   }
 
+  // Deep link to one term: glossary.html#term-<slug>. Pure (no DOM) so the
+  // node:test suite can exercise it; the valid ids are read from the page and
+  // passed in. Anything that is not exactly one known term id is ignored, so a
+  // hostile hash can never select or scroll to anything else.
+  function termFromHash(hash, termIds) {
+    var raw = (hash || "").toString().replace(/^#/, "");
+    if (!/^term-[a-z0-9-]{1,40}$/.test(raw)) return null;
+    return termIds.indexOf(raw) !== -1 ? raw : null;
+  }
+
   function initGlossary() {
     var search = document.getElementById("glossary-search");
     var filter = document.getElementById("glossary-filter");
@@ -124,14 +134,25 @@
       } catch (e) { /* file:// or sandboxed page: the search still works */ }
     }
 
+    // What the search compares against, folded once per card: the keywords plus
+    // the card text minus the «direct link» caption, which is identical on every
+    // term and would otherwise make a search for קישור match all of them.
+    var hays = Array.prototype.map.call(terms, function (term) {
+      var clone = term.cloneNode(true);
+      Array.prototype.forEach.call(clone.querySelectorAll(".term-anchor"), function (el) {
+        el.parentNode.removeChild(el);
+      });
+      return normalize(term.getAttribute("data-term") + " " + clone.textContent);
+    });
+
     function update() {
       var rawQuery = search ? search.value : "";
       var q = normalize(rawQuery);
       var cat = filter ? filter.value : "all";
       syncUrl(rawQuery, cat);
       var shown = 0;
-      terms.forEach(function (term) {
-        var hay = normalize(term.getAttribute("data-term") + " " + term.textContent);
+      terms.forEach(function (term, i) {
+        var hay = hays[i];
         var matchQ = !q || hay.indexOf(q) !== -1;
         var matchC = cat === "all" || term.getAttribute("data-cat") === cat;
         var visible = matchQ && matchC;
@@ -157,6 +178,27 @@
     if (search) search.addEventListener("input", update);
     if (filter) filter.addEventListener("change", update);
     update();
+
+    // A shared link to one term (#term-...) must show that term even when the
+    // restored search or filter would hide it: the hash wins, the filters reset,
+    // and the <details> opens so the reader lands on the text, not a closed card.
+    var termIds = Array.prototype.map.call(terms, function (t) { return t.id; });
+    function revealHashTerm() {
+      var id = termFromHash(window.location.hash, termIds);
+      if (!id) return;
+      var term = document.getElementById(id);
+      if (!term) return;
+      if (term.hidden) {
+        if (search) search.value = "";
+        if (filter) filter.value = "all";
+        update();
+      }
+      var details = term.querySelector("details");
+      if (details) details.open = true;
+      if (typeof term.scrollIntoView === "function") term.scrollIntoView();
+    }
+    revealHashTerm();
+    window.addEventListener("hashchange", revealHashTerm);
   }
 
   function initYear() {
