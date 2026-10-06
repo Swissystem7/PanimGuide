@@ -518,6 +518,106 @@
     return state;
   }
 
+  // Permalink helpers. Only non-default fields are written, so the default
+  // view has a clean URL and a shared link says exactly what was changed.
+  // Both functions are pure (no DOM) so they can be tested in node.
+  function encodeState(state) {
+    var parts = [];
+    Object.keys(DEFAULTS).forEach(function (key) {
+      var value = Number(state[key]);
+      if (!isFinite(value) || value === DEFAULTS[key]) return;
+      parts.push(key + "=" + value);
+    });
+    return parts.length ? "?" + parts.join("&") : "";
+  }
+
+  function decodeState(search) {
+    var out = {};
+    var query = String(search || "");
+    if (query.charAt(0) === "?") query = query.slice(1);
+    if (!query) return out;
+    query.split("&").forEach(function (pair) {
+      var eq = pair.indexOf("=");
+      if (eq < 1) return;
+      var key = decodeURIComponent(pair.slice(0, eq));
+      var raw = pair.slice(eq + 1);
+      if (!DEFAULTS.hasOwnProperty(key) || !/^\d+$/.test(raw)) return;
+      var value = Number(raw);
+      if (value >= LABELS[key].length) return;
+      out[key] = value;
+    });
+    return out;
+  }
+
+  function applyState(partial) {
+    Object.keys(partial).forEach(function (key) {
+      var radios = document.querySelectorAll("input[name='" + key + "'][type='radio']");
+      if (radios.length) {
+        radios.forEach(function (r) {
+          r.checked = Number(r.value) === partial[key];
+        });
+        return;
+      }
+      var range = document.querySelector("input[name='" + key + "'][type='range']");
+      if (range) range.value = String(partial[key]);
+    });
+  }
+
+  function syncPermalink(state) {
+    var query = encodeState(state);
+    var link = el("explorer-permalink");
+    if (link) link.setAttribute("href", "index.html" + query);
+    if (window.history && typeof window.history.replaceState === "function") {
+      var current = window.location.search || "";
+      if (current !== query) {
+        try {
+          window.history.replaceState(null, "", window.location.pathname + query + window.location.hash);
+        } catch (e) { /* file:// or sandboxed page: the visible link still works */ }
+      }
+    }
+  }
+
+  // Copy button. Shown only when the async Clipboard API exists, so browsers
+  // without it (or file:// pages that deny it) keep just the plain link. The
+  // page only ever WRITES the permalink href to the clipboard; it never reads
+  // the clipboard, and the copied text is the same slider-only URL the link
+  // already shows.
+  var copyStatusTimer = null;
+
+  function canCopy() {
+    return !!(window.navigator && navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function");
+  }
+
+  function showCopyStatus(text) {
+    var status = el("explorer-copy-status");
+    if (!status) return;
+    status.textContent = text;
+    if (copyStatusTimer) clearTimeout(copyStatusTimer);
+    copyStatusTimer = setTimeout(function () {
+      status.textContent = "";
+    }, 4000);
+  }
+
+  function copyPermalink() {
+    var link = el("explorer-permalink");
+    if (!link || !canCopy()) return;
+    // link.href (the property) is the resolved absolute URL of the visible link.
+    navigator.clipboard.writeText(link.href).then(function () {
+      showCopyStatus("הקישור הועתק. הוא מכיל מיקומי מחוונים בלבד.");
+    }, function () {
+      showCopyStatus("ההעתקה נכשלה. אפשר להעתיק את הקישור הנראה ידנית.");
+    });
+  }
+
+  function initCopy() {
+    var btn = el("explorer-copy");
+    if (!btn) return;
+    if (!canCopy()) return; // stays hidden
+    btn.hidden = false;
+    btn.addEventListener("click", copyPermalink);
+  }
+
   function setAria(name, value) {
     var input = document.querySelector("input[name='" + name + "'][type='range']");
     if (!input) return;
@@ -795,20 +895,11 @@
     });
     renderFace(state);
     renderReadings(state, focusKey);
+    syncPermalink(state);
   }
 
   function reset() {
-    Object.keys(DEFAULTS).forEach(function (key) {
-      var radios = document.querySelectorAll("input[name='" + key + "'][type='radio']");
-      if (radios.length) {
-        radios.forEach(function (r) {
-          r.checked = Number(r.value) === DEFAULTS[key];
-        });
-        return;
-      }
-      var range = document.querySelector("input[name='" + key + "'][type='range']");
-      if (range) range.value = String(DEFAULTS[key]);
-    });
+    applyState(DEFAULTS);
     update("hairTexture");
   }
 
@@ -824,7 +915,11 @@
     });
     var resetBtn = el("explorer-reset");
     if (resetBtn) resetBtn.addEventListener("click", reset);
-    update("hairTexture");
+    initCopy();
+    var fromUrl = decodeState(window.location.search);
+    var changed = Object.keys(fromUrl);
+    applyState(fromUrl);
+    update(changed.length ? changed[0] : "hairTexture");
   }
 
   document.addEventListener("DOMContentLoaded", init);

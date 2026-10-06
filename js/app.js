@@ -53,8 +53,54 @@
     });
   }
 
+  // Search folding for Hebrew text. A standard Hebrew keyboard types the ASCII
+  // quote and hyphen, while the glossary uses the typographic gershayim (U+05F4),
+  // geresh (U+05F3), maqaf (U+05BE) and the odd nikud mark. Without folding,
+  // typing רמב"ן never finds הרמב״ן and פסאודו-מדע never finds פסאודו־מדע.
+  // Pure (no DOM) so the node:test suite can exercise it directly.
   function normalize(value) {
-    return (value || "").toString().trim().toLowerCase();
+    return (value || "")
+      .toString()
+      .toLowerCase()
+      .replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "") // nikud + cantillation (not maqaf)
+      .replace(/[\u05F3\u05F4"'\u201C\u201D\u2018\u2019\u00AB\u00BB]/g, "") // geresh, gershayim, quotes
+      .replace(/[\u05BE\u2010-\u2015\u2212-]/g, " ") // maqaf and every dash -> space
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  // Glossary URL state. ?q=<search>&cat=<filter> so a glossary search can be
+  // shared or bookmarked, mirroring the explorer permalink. Pure (no DOM) so the
+  // node:test suite can exercise them; the valid categories are read from the
+  // <select> and passed in, so the HTML stays the single source of truth. Only
+  // non-default values are written. An unknown category, a malformed
+  // percent-encoding or an over-long query falls back to the default, so a
+  // hostile link can never put anything but a short plain string in the box.
+  function encodeGlossaryQuery(rawQuery, cat, cats) {
+    var parts = [];
+    var q = (rawQuery || "").toString().trim().slice(0, 80);
+    if (q) parts.push("q=" + encodeURIComponent(q));
+    if (cat && cat !== "all" && cats.indexOf(cat) !== -1) parts.push("cat=" + cat);
+    return parts.length ? "?" + parts.join("&") : "";
+  }
+
+  function decodeGlossaryQuery(search, cats) {
+    var out = { q: "", cat: "all" };
+    var raw = (search || "").toString().replace(/^\?/, "");
+    if (!raw) return out;
+    raw.split("&").forEach(function (pair) {
+      var eq = pair.indexOf("=");
+      if (eq < 1) return;
+      var key = pair.slice(0, eq);
+      var value = pair.slice(eq + 1).replace(/\+/g, " ");
+      try { value = decodeURIComponent(value); } catch (e) { return; }
+      if (key === "q") {
+        out.q = value.trim().slice(0, 80);
+      } else if (key === "cat" && value !== "all" && cats.indexOf(value) !== -1) {
+        out.cat = value;
+      }
+    });
+    return out;
   }
 
   function initGlossary() {
@@ -64,9 +110,25 @@
     var status = document.getElementById("glossary-status");
     if (!terms.length) return;
 
+    var cats = filter
+      ? Array.prototype.map.call(filter.options, function (o) { return o.value; })
+      : ["all"];
+
+    function syncUrl(rawQuery, cat) {
+      if (!(window.history && typeof window.history.replaceState === "function")) return;
+      var query = encodeGlossaryQuery(rawQuery, cat, cats);
+      var current = window.location.search || "";
+      if (current === query) return;
+      try {
+        window.history.replaceState(null, "", window.location.pathname + query + window.location.hash);
+      } catch (e) { /* file:// or sandboxed page: the search still works */ }
+    }
+
     function update() {
-      var q = search ? normalize(search.value) : "";
+      var rawQuery = search ? search.value : "";
+      var q = normalize(rawQuery);
       var cat = filter ? filter.value : "all";
+      syncUrl(rawQuery, cat);
       var shown = 0;
       terms.forEach(function (term) {
         var hay = normalize(term.getAttribute("data-term") + " " + term.textContent);
@@ -77,11 +139,20 @@
         if (visible) shown += 1;
       });
       if (status) {
-        status.textContent = shown === terms.length
-          ? "מוצגים כל " + shown + " המושגים."
-          : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+        if (shown === 0) {
+          status.textContent = "לא נמצא מושג מתאים. נסו מילה קצרה יותר או בחרו «כל המושגים».";
+        } else if (shown === terms.length) {
+          status.textContent = "מוצגים כל " + shown + " המושגים.";
+        } else {
+          status.textContent = "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+        }
       }
     }
+
+    // Restore a shared or bookmarked search before the first render.
+    var fromUrl = decodeGlossaryQuery(window.location.search, cats);
+    if (search && fromUrl.q) search.value = fromUrl.q;
+    if (filter && fromUrl.cat !== "all") filter.value = fromUrl.cat;
 
     if (search) search.addEventListener("input", update);
     if (filter) filter.addEventListener("change", update);
