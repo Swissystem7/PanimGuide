@@ -575,6 +575,23 @@ select {
   color: var(--ink-muted);
 }
 
+/* «Clear search» button in the glossary tools. Ships hidden; app.js shows it
+   only while a search or a category narrows the list. Same look as .term-copy,
+   sized to sit beside the search box and the select. */
+.glossary-reset {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+}
+
+.glossary-reset[hidden] {
+  display: none;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

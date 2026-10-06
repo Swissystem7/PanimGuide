@@ -122,11 +122,21 @@
     return base + "#" + id;
   }
 
+  // Whether the glossary is narrowed at all: a non-blank search string or a
+  // category other than «all». Drives the «clear search» button, which is shown
+  // only while there is something to clear. Pure (no DOM) so the node:test
+  // suite can exercise it.
+  function glossaryIsFiltered(rawQuery, cat) {
+    var q = (rawQuery || "").toString().trim();
+    return !!(q || (cat && cat !== "all"));
+  }
+
   function initGlossary() {
     var search = document.getElementById("glossary-search");
     var filter = document.getElementById("glossary-filter");
     var terms = document.querySelectorAll("[data-term]");
     var status = document.getElementById("glossary-status");
+    var reset = document.getElementById("glossary-reset");
     if (!terms.length) return;
 
     var cats = filter
@@ -159,6 +169,7 @@
       var q = normalize(rawQuery);
       var cat = filter ? filter.value : "all";
       syncUrl(rawQuery, cat);
+      if (reset) reset.hidden = !glossaryIsFiltered(rawQuery, cat);
       var shown = 0;
       terms.forEach(function (term, i) {
         var hay = hays[i];
@@ -187,6 +198,26 @@
     if (search) search.addEventListener("input", update);
     if (filter) filter.addEventListener("change", update);
     update();
+
+    // «Clear search»: every term again, a clean URL, and focus back in the box
+    // so a keyboard user can type the next word at once. Escape inside the box
+    // does the same: type=search clears only the text, only in some browsers,
+    // and never the category.
+    function resetGlossary() {
+      if (search) search.value = "";
+      if (filter) filter.value = "all";
+      update();
+      if (search && typeof search.focus === "function") search.focus();
+    }
+    if (reset) reset.addEventListener("click", resetGlossary);
+    if (search) {
+      search.addEventListener("keydown", function (e) {
+        if (e.key !== "Escape") return;
+        if (!glossaryIsFiltered(search.value, filter ? filter.value : "all")) return;
+        e.preventDefault();
+        resetGlossary();
+      });
+    }
 
     // A shared link to one term (#term-...) must show that term even when the
     // restored search or filter would hide it: the hash wins, the filters reset,
