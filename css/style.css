@@ -543,6 +543,19 @@ select {
 
 .term details[open] summary::after { content: "－"; }
 
+/* Deep link to one term (glossary.html#term-...): the targeted card gets the
+   accent border so the reader sees which term the shared link meant. */
+.term:target details {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.term-anchor {
+  margin: -0.4rem 0 0.6rem;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -651,6 +664,7 @@ th { background: var(--bg-alt); }
   }
   body { background: #fff; font-size: 11pt; }
   .site-header, .nav-toggle, .header-actions, .skip-link, .glossary-tools, .icon-btn { display: none !important; }
+  .term-anchor { display: none !important; }
   .boundary { border: 1px solid #000; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; }
   .term details { border: 1px solid #777; }
