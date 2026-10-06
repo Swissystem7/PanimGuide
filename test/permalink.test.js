@@ -71,3 +71,21 @@ test("the explorer page exposes the permalink and restores from the URL", () => 
   // Shared links carry slider positions only: nothing else is ever serialised.
   assert.doesNotMatch(functionSource("encodeState"), /document|localStorage|navigator/);
 });
+
+test("the copy button is progressive: hidden in HTML, shown only behind a Clipboard API check", () => {
+  assert.match(html, /<button[^>]*id="explorer-copy"[^>]*\shidden[\s>]/, "button ships hidden");
+  assert.match(html, /id="explorer-copy-status"[^>]*role="status"/, "status region is announced");
+  const initCopy = functionSource("initCopy");
+  const canCopy = functionSource("canCopy");
+  assert.match(canCopy, /navigator\.clipboard\.writeText/);
+  assert.match(initCopy, /canCopy\(\)/, "button is only revealed after the feature check");
+  assert.match(initCopy, /hidden = false/);
+});
+
+test("the copy button only writes the visible permalink; it never reads the clipboard", () => {
+  const copy = functionSource("copyPermalink");
+  assert.match(copy, /el\("explorer-permalink"\)/);
+  assert.match(copy, /writeText\(link\.href\)/, "copies exactly the link the user sees");
+  assert.doesNotMatch(src, /clipboard\.read|readText|execCommand/, "no clipboard reads, no legacy copy");
+  assert.doesNotMatch(copy, /document\.title|location\.|localStorage/, "nothing but the link is copied");
+});
