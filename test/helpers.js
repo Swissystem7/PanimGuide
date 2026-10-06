@@ -15,7 +15,7 @@ const HTML_PAGES = [
   "explorer/index.html"
 ];
 
-const JS_FILES = ["js/app.js", "js/explorer.js"];
+const JS_FILES = ["js/theme.js", "js/app.js", "js/explorer.js"];
 
 function read(rel) {
   return fs.readFileSync(path.join(ROOT, rel), "utf8");
