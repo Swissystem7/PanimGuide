@@ -82,19 +82,59 @@
     }
   }
 
+  // Pure apart from the two nodes it is handed: closes the mobile menu and
+  // reports whether it was open, so callers only act (move focus) on a real
+  // close. The desktop layout never has is-open, so there it is a no-op.
+  function closeNav(nav, toggle) {
+    if (!nav.classList.contains("is-open")) return false;
+    nav.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+    return true;
+  }
+
+  // Pure: should a keydown close the menu? Only Escape, and only when the
+  // menu is open, so the key keeps its meaning elsewhere (glossary search
+  // clears on Escape too, and must not lose focus to the nav toggle).
+  function isNavEscape(event, nav) {
+    if (!event || !nav.classList.contains("is-open")) return false;
+    var key = event.key || event.code;
+    return key === "Escape" || key === "Esc" || event.keyCode === 27;
+  }
+
+  // Pure: a click outside the header (the toggle, the menu and the brand)
+  // dismisses the menu, as a user expects of an overlay. Clicks inside leave
+  // it to the toggle and the links.
+  function isOutsideHeader(target, header) {
+    if (!header || !target) return false;
+    return typeof header.contains === "function" ? !header.contains(target) : false;
+  }
+
   function initNav() {
     var toggle = document.getElementById("nav-toggle");
     var nav = document.getElementById("site-nav");
     if (!toggle || !nav) return;
+    var header = toggle.closest ? toggle.closest(".site-header") : null;
     toggle.addEventListener("click", function () {
       var open = nav.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
     nav.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", function () {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
+        closeNav(nav, toggle);
       });
+    });
+    // Escape closes the open menu and hands focus back to the button that
+    // opened it, so a keyboard user is not left on a hidden link. Focus that
+    // was outside the header (the glossary search box, say) stays there.
+    document.addEventListener("keydown", function (event) {
+      if (!isNavEscape(event, nav)) return;
+      closeNav(nav, toggle);
+      if (!isOutsideHeader(document.activeElement, header)) toggle.focus();
+    });
+    // A tap or click anywhere outside the header closes the menu. Focus is
+    // left where the user put it.
+    document.addEventListener("click", function (event) {
+      if (isOutsideHeader(event.target, header)) closeNav(nav, toggle);
     });
   }
 
