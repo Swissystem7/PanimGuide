@@ -10,9 +10,27 @@
       : "light";
   }
 
+  // The browser chrome (Android address bar, iOS Safari tab bar) follows
+  // <meta name="theme-color">. The HTML carries one tag per system scheme,
+  // which is right until a theme is chosen by hand: from then on both tags
+  // are pointed at the page background the CSS resolved for that theme, so
+  // the chrome never stays light over a dark page or the other way round.
+  // Pure apart from the document it is handed, so the node:test suite can
+  // exercise it with a fake. An empty colour (no custom-property support)
+  // leaves the tags alone.
+  function syncThemeColor(doc, bg) {
+    if (!bg) return 0;
+    var metas = doc.querySelectorAll('meta[name="theme-color"]');
+    for (var i = 0; i < metas.length; i += 1) metas[i].setAttribute("content", bg);
+    return metas.length;
+  }
+
   function applyTheme(theme, persist) {
     var next = theme === "dark" || theme === "light" ? theme : systemTheme();
     root.setAttribute("data-theme", next);
+    var bg = "";
+    try { bg = window.getComputedStyle(root).getPropertyValue("--bg").trim(); } catch (e) { bg = ""; }
+    syncThemeColor(document, bg);
     var btn = document.getElementById("theme-toggle");
     if (btn) {
       var isDark = next === "dark";
