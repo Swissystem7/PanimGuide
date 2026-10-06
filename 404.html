@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="noindex">
   <title>הדף לא נמצא — פנים־מדריך</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="js/theme.js"></script>
@@ -12,7 +13,72 @@
 <body>
   <main id="main" class="wrap" style="padding-block:4rem">
     <h1>הדף לא נמצא</h1>
+    <p hidden>הכתובת <code id="missing-path"></code> אינה קיימת באתר.</p>
     <p>חזרו ל<a href="index.html">שער האתר</a>, או לדפי <a href="explorer/index.html">החוקר</a>, <a href="overview.html">הסקירה</a>, <a href="glossary.html">המושגים</a>, <a href="history.html">ההקשר</a> ו<a href="sources.html">המקורות</a>.</p>
   </main>
+  <script>
+  (function () {
+    "use strict";
+
+    // GitHub Pages serves this file for every missing URL, including nested
+    // ones such as /PanimGuide/explorer/typo/ or /PanimGuide/glossary/x/. The
+    // relative links above then resolve against the wrong folder: no
+    // stylesheet, no theme, and every link is dead. The site root is worked out
+    // from the URL and each relative reference is pointed at it. Without
+    // JavaScript, or when the page is served from the root (the common case,
+    // and file://), nothing changes. Only the pathname is read; nothing is
+    // stored or sent anywhere.
+
+    // The names that live at the site root. A user site (user.github.io/) has
+    // one of these as its first path segment; a project site
+    // (user.github.io/<repo>/) has the repository name there instead.
+    var own = ["index.html", "explorer", "overview.html", "glossary.html", "history.html", "sources.html", "css", "js", "favicon.svg", "404.html"];
+
+    // Pure: the folder the site is served from, always between slashes.
+    function siteRoot(hostname, pathname, ownNames) {
+      var parts = (pathname || "/").split("/").filter(function (p) { return p; });
+      var host = (hostname || "").toLowerCase();
+      var githubIo = host.slice(-10) === ".github.io";
+      if (!githubIo || !parts.length) return "/";
+      if (ownNames.indexOf(parts[0].toLowerCase()) !== -1) return "/";
+      return "/" + parts[0] + "/";
+    }
+
+    // Pure: true for a relative reference (not root-relative, not a fragment or
+    // query, and no scheme).
+    function isRelative(href) {
+      if (!href) return false;
+      var first = href.charAt(0);
+      if (first === "/" || first === "#" || first === "?") return false;
+      var colon = href.indexOf(":");
+      var slash = href.indexOf("/");
+      return colon === -1 || (slash !== -1 && slash < colon);
+    }
+
+    var loc = window.location;
+    var pathname = (loc.pathname || "").slice(0, 200);
+    var missing = document.getElementById("missing-path");
+    if (missing && pathname) {
+      missing.textContent = pathname;
+      if (missing.parentNode) missing.parentNode.hidden = false;
+    }
+
+    if (loc.protocol !== "http:" && loc.protocol !== "https:") return;
+    var root = siteRoot(loc.hostname, loc.pathname, own);
+    var dir = (loc.pathname || "/").slice(0, (loc.pathname || "/").lastIndexOf("/") + 1);
+    if (dir === root) return;
+
+    var nodes = document.querySelectorAll("a[href], link[href]");
+    for (var i = 0; i < nodes.length; i++) {
+      var href = nodes[i].getAttribute("href");
+      if (isRelative(href)) nodes[i].setAttribute("href", root + href);
+    }
+    // The theme bootstrap in <head> failed for the same reason; load it from
+    // the root so a saved theme still applies.
+    var boot = document.createElement("script");
+    boot.src = root + "js/theme.js";
+    document.head.appendChild(boot);
+  })();
+  </script>
 </body>
 </html>
