@@ -42,6 +42,25 @@
     }
   }
 
+  function hasSavedTheme() {
+    var saved = null;
+    try { saved = localStorage.getItem(storageKey); } catch (e) { saved = null; }
+    return saved === "dark" || saved === "light";
+  }
+
+  // Follow the operating system while no theme was chosen by hand. applyTheme
+  // pins data-theme on <html>, which takes the CSS prefers-color-scheme rules
+  // out of play, so without this an OS that switches to dark at sunset (or a
+  // user flipping the setting) left the page in the scheme it loaded with.
+  // Returns true when the change was applied, false when a saved choice wins.
+  // Pure apart from the callbacks it is handed, so the node:test suite can
+  // exercise it with fakes.
+  function onSystemThemeChange(event, saved, apply) {
+    if (saved()) return false;
+    apply(event && event.matches ? "dark" : "light", false);
+    return true;
+  }
+
   function initTheme() {
     var saved = null;
     try { saved = localStorage.getItem(storageKey); } catch (e) { saved = null; }
@@ -52,6 +71,14 @@
         var current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
         applyTheme(current === "dark" ? "light" : "dark", true);
       });
+    }
+    var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    if (!mq) return;
+    var onChange = function (event) { onSystemThemeChange(event, hasSavedTheme, applyTheme); };
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", onChange);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(onChange); // Safari < 14
     }
   }
 
