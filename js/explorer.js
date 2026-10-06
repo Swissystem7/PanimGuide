@@ -577,6 +577,47 @@
     }
   }
 
+  // Copy button. Shown only when the async Clipboard API exists, so browsers
+  // without it (or file:// pages that deny it) keep just the plain link. The
+  // page only ever WRITES the permalink href to the clipboard; it never reads
+  // the clipboard, and the copied text is the same slider-only URL the link
+  // already shows.
+  var copyStatusTimer = null;
+
+  function canCopy() {
+    return !!(window.navigator && navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function");
+  }
+
+  function showCopyStatus(text) {
+    var status = el("explorer-copy-status");
+    if (!status) return;
+    status.textContent = text;
+    if (copyStatusTimer) clearTimeout(copyStatusTimer);
+    copyStatusTimer = setTimeout(function () {
+      status.textContent = "";
+    }, 4000);
+  }
+
+  function copyPermalink() {
+    var link = el("explorer-permalink");
+    if (!link || !canCopy()) return;
+    // link.href (the property) is the resolved absolute URL of the visible link.
+    navigator.clipboard.writeText(link.href).then(function () {
+      showCopyStatus("הקישור הועתק. הוא מכיל מיקומי מחוונים בלבד.");
+    }, function () {
+      showCopyStatus("ההעתקה נכשלה. אפשר להעתיק את הקישור הנראה ידנית.");
+    });
+  }
+
+  function initCopy() {
+    var btn = el("explorer-copy");
+    if (!btn) return;
+    if (!canCopy()) return; // stays hidden
+    btn.hidden = false;
+    btn.addEventListener("click", copyPermalink);
+  }
+
   function setAria(name, value) {
     var input = document.querySelector("input[name='" + name + "'][type='range']");
     if (!input) return;
@@ -874,6 +915,7 @@
     });
     var resetBtn = el("explorer-reset");
     if (resetBtn) resetBtn.addEventListener("click", reset);
+    initCopy();
     var fromUrl = decodeState(window.location.search);
     var changed = Object.keys(fromUrl);
     applyState(fromUrl);
