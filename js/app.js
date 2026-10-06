@@ -113,6 +113,15 @@
     return termIds.indexOf(raw) !== -1 ? raw : null;
   }
 
+  // Absolute direct link for one term: the page URL without its search and
+  // hash, plus #<id>. The current ?q=&cat= state is dropped on purpose: the
+  // copied link should open the term, not someone's filter. Pure (no DOM) so
+  // the node:test suite can exercise it.
+  function termPermalink(href, id) {
+    var base = (href || "").toString().split("#")[0].split("?")[0];
+    return base + "#" + id;
+  }
+
   function initGlossary() {
     var search = document.getElementById("glossary-search");
     var filter = document.getElementById("glossary-filter");
@@ -199,6 +208,55 @@
     }
     revealHashTerm();
     window.addEventListener("hashchange", revealHashTerm);
+
+    // Copy button next to every direct link, added only when the async
+    // Clipboard API exists, so browsers without it (or file:// pages that deny
+    // it) keep just the plain link. The page only ever WRITES the term link to
+    // the clipboard; it never reads the clipboard. The buttons live inside
+    // .term-anchor, so they are not searchable text and are not printed.
+    var copyStatusTimer = null;
+    var copyStatusEl = null;
+
+    function canCopy() {
+      return !!(window.navigator && navigator.clipboard &&
+        typeof navigator.clipboard.writeText === "function");
+    }
+
+    function showCopyStatus(el, text) {
+      if (copyStatusEl && copyStatusEl !== el) copyStatusEl.textContent = "";
+      copyStatusEl = el;
+      el.textContent = text;
+      if (copyStatusTimer) clearTimeout(copyStatusTimer);
+      copyStatusTimer = setTimeout(function () {
+        el.textContent = "";
+      }, 4000);
+    }
+
+    function initTermCopy() {
+      if (!canCopy()) return;
+      terms.forEach(function (term) {
+        var anchor = term.querySelector(".term-anchor");
+        if (!anchor || !term.id) return;
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "term-copy";
+        btn.textContent = "העתקת הקישור";
+        var copyStatus = document.createElement("span");
+        copyStatus.className = "term-copy-status";
+        copyStatus.setAttribute("role", "status");
+        copyStatus.setAttribute("aria-live", "polite");
+        anchor.appendChild(btn);
+        anchor.appendChild(copyStatus);
+        btn.addEventListener("click", function () {
+          navigator.clipboard.writeText(termPermalink(window.location.href, term.id)).then(function () {
+            showCopyStatus(copyStatus, "הקישור הועתק.");
+          }, function () {
+            showCopyStatus(copyStatus, "ההעתקה נכשלה. אפשר להעתיק את הקישור ידנית.");
+          });
+        });
+      });
+    }
+    initTermCopy();
   }
 
   function initYear() {

@@ -556,6 +556,25 @@ select {
   color: var(--ink-muted);
 }
 
+/* Copy button added by app.js next to the direct link, only when the
+   Clipboard API exists. Same look as the explorer's copy button, smaller. */
+.term-copy {
+  margin-inline-start: 0.6rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  border-radius: 10px;
+  padding: 0.15rem 0.5rem;
+}
+
+.term-copy-status {
+  margin-inline-start: 0.5rem;
+  color: var(--ink-muted);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
