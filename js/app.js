@@ -53,8 +53,20 @@
     });
   }
 
+  // Search folding for Hebrew text. A standard Hebrew keyboard types the ASCII
+  // quote and hyphen, while the glossary uses the typographic gershayim (U+05F4),
+  // geresh (U+05F3), maqaf (U+05BE) and the odd nikud mark. Without folding,
+  // typing רמב"ן never finds הרמב״ן and פסאודו-מדע never finds פסאודו־מדע.
+  // Pure (no DOM) so the node:test suite can exercise it directly.
   function normalize(value) {
-    return (value || "").toString().trim().toLowerCase();
+    return (value || "")
+      .toString()
+      .toLowerCase()
+      .replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, "") // nikud + cantillation (not maqaf)
+      .replace(/[\u05F3\u05F4"'\u201C\u201D\u2018\u2019\u00AB\u00BB]/g, "") // geresh, gershayim, quotes
+      .replace(/[\u05BE\u2010-\u2015\u2212-]/g, " ") // maqaf and every dash -> space
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   function initGlossary() {
@@ -77,9 +89,13 @@
         if (visible) shown += 1;
       });
       if (status) {
-        status.textContent = shown === terms.length
-          ? "מוצגים כל " + shown + " המושגים."
-          : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+        if (shown === 0) {
+          status.textContent = "לא נמצא מושג מתאים. נסו מילה קצרה יותר או בחרו «כל המושגים».";
+        } else if (shown === terms.length) {
+          status.textContent = "מוצגים כל " + shown + " המושגים.";
+        } else {
+          status.textContent = "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+        }
       }
     }
 
