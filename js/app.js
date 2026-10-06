@@ -69,6 +69,40 @@
       .trim();
   }
 
+  // Glossary URL state. ?q=<search>&cat=<filter> so a glossary search can be
+  // shared or bookmarked, mirroring the explorer permalink. Pure (no DOM) so the
+  // node:test suite can exercise them; the valid categories are read from the
+  // <select> and passed in, so the HTML stays the single source of truth. Only
+  // non-default values are written. An unknown category, a malformed
+  // percent-encoding or an over-long query falls back to the default, so a
+  // hostile link can never put anything but a short plain string in the box.
+  function encodeGlossaryQuery(rawQuery, cat, cats) {
+    var parts = [];
+    var q = (rawQuery || "").toString().trim().slice(0, 80);
+    if (q) parts.push("q=" + encodeURIComponent(q));
+    if (cat && cat !== "all" && cats.indexOf(cat) !== -1) parts.push("cat=" + cat);
+    return parts.length ? "?" + parts.join("&") : "";
+  }
+
+  function decodeGlossaryQuery(search, cats) {
+    var out = { q: "", cat: "all" };
+    var raw = (search || "").toString().replace(/^\?/, "");
+    if (!raw) return out;
+    raw.split("&").forEach(function (pair) {
+      var eq = pair.indexOf("=");
+      if (eq < 1) return;
+      var key = pair.slice(0, eq);
+      var value = pair.slice(eq + 1).replace(/\+/g, " ");
+      try { value = decodeURIComponent(value); } catch (e) { return; }
+      if (key === "q") {
+        out.q = value.trim().slice(0, 80);
+      } else if (key === "cat" && value !== "all" && cats.indexOf(value) !== -1) {
+        out.cat = value;
+      }
+    });
+    return out;
+  }
+
   function initGlossary() {
     var search = document.getElementById("glossary-search");
     var filter = document.getElementById("glossary-filter");
@@ -76,9 +110,25 @@
     var status = document.getElementById("glossary-status");
     if (!terms.length) return;
 
+    var cats = filter
+      ? Array.prototype.map.call(filter.options, function (o) { return o.value; })
+      : ["all"];
+
+    function syncUrl(rawQuery, cat) {
+      if (!(window.history && typeof window.history.replaceState === "function")) return;
+      var query = encodeGlossaryQuery(rawQuery, cat, cats);
+      var current = window.location.search || "";
+      if (current === query) return;
+      try {
+        window.history.replaceState(null, "", window.location.pathname + query + window.location.hash);
+      } catch (e) { /* file:// or sandboxed page: the search still works */ }
+    }
+
     function update() {
-      var q = search ? normalize(search.value) : "";
+      var rawQuery = search ? search.value : "";
+      var q = normalize(rawQuery);
       var cat = filter ? filter.value : "all";
+      syncUrl(rawQuery, cat);
       var shown = 0;
       terms.forEach(function (term) {
         var hay = normalize(term.getAttribute("data-term") + " " + term.textContent);
@@ -98,6 +148,11 @@
         }
       }
     }
+
+    // Restore a shared or bookmarked search before the first render.
+    var fromUrl = decodeGlossaryQuery(window.location.search, cats);
+    if (search && fromUrl.q) search.value = fromUrl.q;
+    if (filter && fromUrl.cat !== "all") filter.value = fromUrl.cat;
 
     if (search) search.addEventListener("input", update);
     if (filter) filter.addEventListener("change", update);
