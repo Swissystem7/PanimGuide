@@ -32,14 +32,22 @@
     try { bg = window.getComputedStyle(root).getPropertyValue("--bg").trim(); } catch (e) { bg = ""; }
     syncThemeColor(document, bg);
     var btn = document.getElementById("theme-toggle");
-    if (btn) {
-      var isDark = next === "dark";
-      btn.setAttribute("aria-pressed", isDark ? "true" : "false");
-      btn.textContent = isDark ? "מצב בהיר" : "מצב כהה";
-    }
+    if (btn) syncToggle(btn, next === "dark");
     if (persist) {
       try { localStorage.setItem(storageKey, next); } catch (e) { /* ignore */ }
     }
+  }
+
+  // The toggle is a WAI-ARIA toggle button: its label («מצב כהה», in the
+  // HTML) never changes and aria-pressed says whether the dark theme is on.
+  // The page used to flip the label to the opposite theme as well, so a
+  // screen reader announced «מצב בהיר, לחוץ» over a dark page: two states
+  // that contradict each other. The pressed look is CSS on [aria-pressed].
+  // Pure apart from the button it is handed, so the node:test suite can
+  // exercise it with a fake. Returns the state it set.
+  function syncToggle(btn, isDark) {
+    btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+    return isDark;
   }
 
   function hasSavedTheme() {

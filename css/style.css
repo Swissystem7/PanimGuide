@@ -250,6 +250,18 @@ a:hover {
   cursor: pointer;
 }
 
+/* The theme toggle keeps one label; the pressed state (dark theme on) is
+   shown here, not by rewording the button. */
+.icon-btn[aria-pressed="true"] {
+  background: var(--bg-alt);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.icon-btn[aria-pressed="true"]::before {
+  content: "✓ ";
+}
+
 .boundary {
   background: var(--bound-bg);
   color: var(--bound);
