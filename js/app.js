@@ -76,6 +76,10 @@
         term.hidden = !visible;
         if (visible) shown += 1;
       });
+      var emptyState = document.getElementById("glossary-empty");
+      if (emptyState) {
+        emptyState.hidden = shown > 0;
+      }
       if (status) {
         status.textContent = shown === terms.length
           ? "מוצגים כל " + shown + " המושגים."
