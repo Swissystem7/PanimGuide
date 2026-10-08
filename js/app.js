@@ -55,8 +55,11 @@
 
   // Hebrew keyboards type ASCII quotes, so fold gershayim/geresh to them,
   // drop niqqud and cantillation, and treat maqaf/hyphens as spaces.
+  // Bidi marks and zero-width characters that Hebrew keyboards insert
+  // around spaces are invisible and escape trim(), so strip them too.
   function normalize(value) {
     return (value || "").toString()
+      .replace(/[​-‏‪-‮⁠-⁩﻿]/g, "")
       .replace(/[֑-ׇֽֿׁׂׅׄ]/g, "")
       .replace(/[״“”„]/g, "\"")
       .replace(/[׳‘’`]/g, "'")
