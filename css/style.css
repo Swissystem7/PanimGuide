@@ -334,6 +334,7 @@ p { text-wrap: pretty; }
 }
 
 .card {
+  position: relative;
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -349,6 +350,13 @@ p { text-wrap: pretty; }
 .card a.stretched {
   text-decoration: none;
   color: inherit;
+}
+
+.card a.stretched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .do-dont {
