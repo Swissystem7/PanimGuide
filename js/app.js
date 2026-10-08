@@ -81,6 +81,11 @@
           ? "מוצגים כל " + shown + " המושגים."
           : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
       }
+      
+      var emptyMsg = document.getElementById("glossary-empty");
+      if (emptyMsg) {
+        emptyMsg.hidden = shown > 0;
+      }
     }
 
     if (search) search.addEventListener("input", update);
