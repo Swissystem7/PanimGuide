@@ -57,10 +57,15 @@
   // drop niqqud and cantillation, and treat maqaf/hyphens as spaces.
   // Bidi marks and zero-width characters that Hebrew keyboards insert
   // around spaces are invisible and escape trim(), so strip them too.
+  // Final letters (ך ם ן ף ץ) fold to their regular forms, each of which
+  // sits one code point after it, so כף and כפ match each other.
   function normalize(value) {
     return (value || "").toString()
       .replace(/[​-‏‪-‮⁠-⁩﻿]/g, "")
       .replace(/[֑-ׇֽֿׁׂׅׄ]/g, "")
+      .replace(/[ךםןףץ]/g, function (c) {
+        return String.fromCharCode(c.charCodeAt(0) + 1);
+      })
       .replace(/[״“”„]/g, "\"")
       .replace(/[׳‘’`]/g, "'")
       .replace(/[־‐-―-]/g, " ")
