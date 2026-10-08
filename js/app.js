@@ -76,15 +76,35 @@
         term.hidden = !visible;
         if (visible) shown += 1;
       });
+      
+      var emptyState = document.getElementById("glossary-empty");
+      if (emptyState) {
+        emptyState.hidden = shown > 0;
+      }
+      
       if (status) {
-        status.textContent = shown === terms.length
-          ? "מוצגים כל " + shown + " המושגים."
-          : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+        if (shown === 0) {
+          status.textContent = "לא נמצאו מושגים תואמים.";
+        } else {
+          status.textContent = shown === terms.length
+            ? "מוצגים כל " + shown + " המושגים."
+            : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+        }
       }
     }
 
     if (search) search.addEventListener("input", update);
     if (filter) filter.addEventListener("change", update);
+    
+    var resetBtn = document.getElementById("glossary-reset-btn");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", function() {
+        if (search) search.value = "";
+        if (filter) filter.value = "all";
+        update();
+      });
+    }
+    
     update();
   }
 
