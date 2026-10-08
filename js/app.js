@@ -62,6 +62,7 @@
     var filter = document.getElementById("glossary-filter");
     var terms = document.querySelectorAll("[data-term]");
     var status = document.getElementById("glossary-status");
+    var emptyState = document.getElementById("glossary-empty");
     if (!terms.length) return;
 
     function update() {
@@ -80,6 +81,9 @@
         status.textContent = shown === terms.length
           ? "מוצגים כל " + shown + " המושגים."
           : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
+      }
+      if (emptyState) {
+        emptyState.hidden = shown > 0;
       }
     }
 
