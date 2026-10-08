@@ -59,6 +59,8 @@
   // around spaces are invisible and escape trim(), so strip them too.
   // Final letters (ך ם ן ף ץ) fold to their regular forms, each of which
   // sits one code point after it, so כף and כפ match each other.
+  // A leading definite article ה is dropped from the start of every word,
+  // on both sides, so הפנים and פנים match while typing too.
   function normalize(value) {
     return (value || "").toString()
       .replace(/[​-‏‪-‮⁠-⁩﻿]/g, "")
@@ -71,6 +73,7 @@
       .replace(/[־‐-―-]/g, " ")
       .replace(/\s+/g, " ")
       .trim()
+      .replace(/(^| )ה(?=[א-ת])/g, "$1")
       .toLowerCase();
   }
 
