@@ -62,6 +62,8 @@
     var filter = document.getElementById("glossary-filter");
     var terms = document.querySelectorAll("[data-term]");
     var status = document.getElementById("glossary-status");
+    var emptyEl = document.getElementById("glossary-empty");
+    var clearBtn = document.getElementById("glossary-clear-btn");
     if (!terms.length) return;
 
     function update() {
@@ -81,10 +83,21 @@
           ? "מוצגים כל " + shown + " המושגים."
           : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
       }
+      if (emptyEl) {
+        emptyEl.hidden = shown > 0;
+      }
     }
 
     if (search) search.addEventListener("input", update);
     if (filter) filter.addEventListener("change", update);
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        if (search) search.value = "";
+        if (filter) filter.value = "all";
+        update();
+        if (search) search.focus();
+      });
+    }
     update();
   }
 
