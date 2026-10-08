@@ -54,7 +54,7 @@
   }
 
   // Hebrew keyboards type ASCII quotes, so fold gershayim to them, drop
-  // geresh and apostrophes entirely (so ג׳ and ג' both match ג), drop niqqud and cantillation, and treat maqaf/hyphens as spaces.
+  // geresh, apostrophes, sof pasuq and paseq entirely (so ג׳ and ג' both match ג), drop niqqud and cantillation, and treat maqaf/hyphens as spaces.
   // Bidi marks and zero-width characters that Hebrew keyboards insert
   // around spaces are invisible and escape trim(), so strip them too.
   // Final letters (ך ם ן ף ץ) fold to their regular forms, each of which
@@ -67,7 +67,7 @@
         return String.fromCharCode(c.charCodeAt(0) + 1);
       })
       .replace(/[״“”„]/g, "\"")
-      .replace(/[׳'‘’`]/g, "")
+      .replace(/[׳׃׀'‘’`]/g, "")
       .replace(/[־‐-―-]/g, " ")
       .replace(/\s+/g, " ")
       .trim()
