@@ -53,8 +53,17 @@
     });
   }
 
+  // Hebrew keyboards type ASCII quotes, so fold gershayim/geresh to them,
+  // drop niqqud and cantillation, and treat maqaf/hyphens as spaces.
   function normalize(value) {
-    return (value || "").toString().trim().toLowerCase();
+    return (value || "").toString()
+      .replace(/[֑-ׇֽֿׁׂׅׄ]/g, "")
+      .replace(/[״“”„]/g, "\"")
+      .replace(/[׳‘’`]/g, "'")
+      .replace(/[־‐-―-]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
   }
 
   function initGlossary() {
