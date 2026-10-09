@@ -59,9 +59,10 @@
   // around spaces are invisible and escape trim(), so strip them too.
   // Final letters (ך ם ן ף ץ) fold to their regular forms, each of which
   // sits one code point after it, so כף and כפ match each other.
-  // A leading conjunction ו and/or definite article ה is dropped from the
-  // start of every word, on both sides, so הפנים, ופנים, והפנים and פנים
-  // all match while typing too.
+  // A leading conjunction ו, then one of the prefixes מ ש כ ל ב, then a
+  // definite article ה is dropped from the start of every word, on both
+  // sides, so הפנים, ופנים, בפנים, מהפנים, ושהפנים and פנים all match
+  // while typing too.
   function normalize(value) {
     return (value || "").toString().normalize("NFD")
       .replace(/[​-‏‪-‮⁠-⁩﻿]/g, "")
@@ -74,7 +75,7 @@
       .replace(/[־‐-―-]/g, " ")
       .replace(/\s+/g, " ")
       .trim()
-      .replace(/(^| )ו?ה?(?=[א-ת])/g, "$1")
+      .replace(/(^| )ו?[משכלב]?ה?(?=[א-ת])/g, "$1")
       .toLowerCase();
   }
 
