@@ -54,7 +54,7 @@
   }
 
   // Hebrew keyboards type ASCII quotes, so fold gershayim to them, drop
-  // geresh, apostrophes, sof pasuq and paseq entirely (so ג׳ and ג' both match ג), drop niqqud and cantillation, and treat maqaf/hyphens as spaces.
+  // geresh, apostrophes, sof pasuq and paseq entirely (so ג׳ and ג' both match ג), drop niqqud and cantillation (decomposing precomposed forms like שׂ U+FB2B first), and treat maqaf/hyphens as spaces.
   // Bidi marks and zero-width characters that Hebrew keyboards insert
   // around spaces are invisible and escape trim(), so strip them too.
   // Final letters (ך ם ן ף ץ) fold to their regular forms, each of which
@@ -62,7 +62,7 @@
   // A leading definite article ה is dropped from the start of every word,
   // on both sides, so הפנים and פנים match while typing too.
   function normalize(value) {
-    return (value || "").toString()
+    return (value || "").toString().normalize("NFD")
       .replace(/[​-‏‪-‮⁠-⁩﻿]/g, "")
       .replace(/[֑-ׇֽֿׁׂׅׄ]/g, "")
       .replace(/[ךםןףץ]/g, function (c) {
