@@ -108,6 +108,8 @@
           ? "מוצגים כל " + shown + " המושגים."
           : "מוצגים " + shown + " מתוך " + terms.length + " מושגים.";
       }
+        var emptyMsg = document.getElementById('glossary-empty');
+        if (emptyMsg) emptyMsg.style.display = shown === 0 ? 'block' : 'none';
     }
 
     if (search) search.addEventListener("input", update);
