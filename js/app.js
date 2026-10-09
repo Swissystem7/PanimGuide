@@ -62,9 +62,10 @@
   // A leading conjunction ו, then one of the prefixes מ ש כ ל ב, then a
   // definite article ה is dropped from the start of every word, on both
   // sides, so הפנים, ופנים, בפנים, מהפנים, ושהפנים and פנים all match
-  // while typing too. A trailing feminine ending ה or ת is dropped from
-  // the end of every word that keeps at least two letters, so חכמה, חכמת
-  // and חכם all match.
+  // while typing too. A trailing plural ים (folded to ימ) or ות, then a
+  // trailing feminine ending ה or ת, is dropped from the end of every
+  // word that keeps at least two letters, so ספרים and ספר, חכמות, חכמה,
+  // חכמת and חכם all match.
   function normalize(value) {
     return (value || "").toString().normalize("NFD")
       .replace(/[​-‏‪-‮⁠-⁩﻿]/g, "")
@@ -78,6 +79,7 @@
       .replace(/\s+/g, " ")
       .trim()
       .replace(/(^| )ו?[משכלב]?ה?(?=[א-ת])/g, "$1")
+      .replace(/([א-ת]{2})(?:ימ|ות)(?![א-ת])/g, "$1")
       .replace(/([א-ת]{2})[הת](?![א-ת])/g, "$1")
       .toLowerCase();
   }
